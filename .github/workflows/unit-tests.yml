@@ -1,0 +1,34 @@
+name: Run Tests Suites
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  app-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Installing modules
+      run: cd app && yarn install
+
+    - name: Running tests suite
+      run: cd app && yarn test:unit:quiet
+
+  # worker-unit-tests:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+
+  #   - name: Installing modules
+  #     run: cd worker && yarn install
+
+  #   - name: Running tests suite
+  #     run: cd worker && yarn test:unit:quiet

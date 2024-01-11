@@ -1,0 +1,34 @@
+name: Build Application
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  app-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Installing modules
+      run: cd app && yarn install
+    
+    - name: Building project
+      run: cd app && yarn build
+
+  # worker-build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+
+  #   - name: Installing modules
+  #     run: cd worker && yarn install
+    
+  #   - name: Building project
+  #     run: cd worker && yarn build

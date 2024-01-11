@@ -1,0 +1,13 @@
+*
+
+!app/src/
+!app/prisma/
+!app/tsconfig.json
+!app/package.json
+!app/babel.config.js
+
+!worker/src/
+!worker/prisma/
+!worker/tsconfig.json
+!worker/package.json
+!worker/babel.config.js
