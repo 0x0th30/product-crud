@@ -1,0 +1,85 @@
+<mxfile host="Electron" modified="2024-01-11T05:48:19.101Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="xb_pNTBbOrtnC_UEVHZI" version="21.6.8" type="device">
+  <diagram name="Page-1" id="8XWGMOfrtOaG6Yx380dH">
+    <mxGraphModel dx="2578" dy="703" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-16" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="120" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-13" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="960" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UJA4osVv9RvZMPN2lgZ0-1" target="UJA4osVv9RvZMPN2lgZ0-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-1" value="Nginx&lt;br&gt;Reverse Proxy" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="160" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UJA4osVv9RvZMPN2lgZ0-2" target="UJA4osVv9RvZMPN2lgZ0-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-2" value="" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="-15" y="170" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UJA4osVv9RvZMPN2lgZ0-3" target="UJA4osVv9RvZMPN2lgZ0-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-11" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UJA4osVv9RvZMPN2lgZ0-3" target="UJA4osVv9RvZMPN2lgZ0-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-3" value="Product CRUD API" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="160" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UJA4osVv9RvZMPN2lgZ0-4" target="UJA4osVv9RvZMPN2lgZ0-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-12" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UJA4osVv9RvZMPN2lgZ0-4" target="UJA4osVv9RvZMPN2lgZ0-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-4" value="Product Worker" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="160" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-5" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;direction=south;" vertex="1" parent="1">
+          <mxGeometry x="600" y="180" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-6" value="Redis Queue" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="185" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-7" value="PostgreSQL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="620" y="360" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-15" value="docker compose infrastructure" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="55" y="520" width="210" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-17" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="120" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-18" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="120" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-19" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="120" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-20" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="320" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-21" value="nginx container" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="120" y="280" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-22" value="api container" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="320" y="280" width="75" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-23" value="redis container" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="560" y="280" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-24" value="worker container" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="800" y="280" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="UJA4osVv9RvZMPN2lgZ0-25" value="postgres container" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="560" y="480" width="110" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
