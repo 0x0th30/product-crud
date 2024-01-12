@@ -1,0 +1,28 @@
+services:
+  api:
+    container_name: product-crud-api
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.app.dev
+    env_file:
+      - ../config/app.env
+    depends_on:
+      - redis
+      - postgres
+    links:
+      - redis
+      - postgres
+
+  redis:
+    container_name: product-crud-redis
+    image: redis
+    env_file:
+      - ../config/redis.env
+
+  postgres:
+    container_name: product-crud-postgres
+    image: postgres
+    volumes:
+      - ../volumes/postgres/data:/var/lib/postgresql/data
+    env_file:
+      - ../config/postgres.env
