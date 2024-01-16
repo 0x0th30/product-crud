@@ -17,8 +17,9 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
     "import/no-unresolved": "off",
     "class-methods-use-this": "off",

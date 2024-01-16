@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "typeRoots": [
       "./node_modules/@types",
-      "./src/types"
+      "./src/common/types"
     ],
     "rootDirs": [
       "src",
@@ -48,5 +48,5 @@
     "src/**/*.ts",
     "src/types/global.d.ts",
     "tests/**/*.ts"
-  ]
+, "src/use-cases/read-by-search/read-by-search.middleware.ts"  ]
 }
