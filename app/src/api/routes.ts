@@ -9,6 +9,7 @@ import { ReadByCodeSchema } from '@use-cases/read-by-code/read-by-code.schema';
 import { ReadByCodeMiddleware } from '@use-cases/read-by-code/read-by-code.middleware';
 import { UpdateSchema } from '@use-cases/update/update.schema';
 import { UpdateMiddleware } from '@use-cases/update/update.middleware';
+import { BulkMiddleware } from '@use-cases/bulk/bulk.middleware';
 
 const router = Router();
 
@@ -31,6 +32,10 @@ router.patch(
   '/products/:code',
   SchemaValidator.getMiddleware(UpdateSchema),
   new UpdateMiddleware().handle,
+);
+router.post(
+  '/products/bulk',
+  new BulkMiddleware().handle,
 );
 
 export { router };

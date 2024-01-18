@@ -17,3 +17,16 @@ model Product {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+enum TaskStatus {
+  STARTED
+  FAILED
+  FINISHED
+}
+
+model Task {
+  id         String     @id @unique
+  status     TaskStatus
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+}

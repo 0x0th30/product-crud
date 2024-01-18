@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { ProductRepository } from '@repositories/product';
-import { NotFoundProduct } from '@errors/product-error';
+import { NotFoundItem } from '@errors/repository-error';
 import { ReadByCode } from './read-by-code.business';
 import { ReadByCodeHTTPResponse } from './read-by-code.d';
 
@@ -25,7 +25,7 @@ export class ReadByCodeMiddleware {
       return response.status(200).json(responseContent);
     }
 
-    if (read.error instanceof NotFoundProduct) {
+    if (read.error instanceof NotFoundItem) {
       responseContent.success = false;
       responseContent.message = `Cannot found product with code "${code}"!`;
       return response.status(404).json(responseContent);

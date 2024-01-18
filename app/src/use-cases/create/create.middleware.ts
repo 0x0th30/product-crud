@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { ProductRepository } from '@repositories/product';
-import { NotUniqueCode } from '@errors/product-error';
+import { NotUniqueId } from '@errors/repository-error';
 import { Create } from './create.business';
 import { CreateHTTPResponse } from './create.d';
 
@@ -25,7 +25,7 @@ export class CreateMiddleware {
       return response.status(201).json(responseContent);
     }
 
-    if (create.error instanceof NotUniqueCode) {
+    if (create.error instanceof NotUniqueId) {
       responseContent.success = false;
       responseContent.message = `A product with code "${code}" it's already registered!`;
       return response.status(400).json(responseContent);

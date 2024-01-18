@@ -3,20 +3,20 @@ import { ApplicationError } from '@errors/application-error';
 
 export abstract class ProductError extends ApplicationError {}
 
-export class NotUniqueCode extends ProductError {
-  constructor(code: string) {
+export class NotUniqueId extends ProductError {
+  constructor(id: string) {
     super();
-    this.name = 'NotUniqueCode';
+    this.name = 'NotUniqueId';
     this.stack = new Error().stack;
-    this.message = code;
+    this.message = id;
   }
 }
 
-export class NotFoundProduct extends ProductError {
-  constructor(code: string) {
+export class NotFoundItem extends ProductError {
+  constructor(id: string) {
     super();
-    this.name = 'NotFoundProduct';
+    this.name = 'NotFoundItem';
     this.stack = new Error().stack;
-    this.message = code;
+    this.message = id;
   }
 }

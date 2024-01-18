@@ -18,6 +18,8 @@ services:
     image: redis
     env_file:
       - ../config/redis.env
+    ports:
+      - 6379:6379
 
   postgres:
     container_name: product-crud-postgres

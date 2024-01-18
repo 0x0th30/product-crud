@@ -1,16 +1,17 @@
 import { SearchParameters } from 'global';
 import { PrismaClient, Product } from '@prisma/client';
-import { NotFoundProduct, NotUniqueCode } from '@errors/product-error';
+import { NotFoundItem, NotUniqueId } from '@errors/repository-error';
 
 export class ProductRepository {
   constructor(
     private readonly client: PrismaClient,
-  ) {}
+  ) { }
 
   public async create(code: string, title: string, price: number): Promise<Product> {
-    const product = await this.client.product.create({ data: { code, title, price } })
+    const data = { code, title, price };
+    const product = await this.client.product.create({ data })
       .catch((error) => {
-        if (error.code === 'P2002') throw new NotUniqueCode(code);
+        if (error.code === 'P2002') throw new NotUniqueId(code);
         throw error;
       });
 
@@ -21,8 +22,8 @@ export class ProductRepository {
     const where = { code };
 
     const product = await this.client.product.findFirst({ where });
+    if (!product) throw new NotFoundItem(code);
 
-    if (!product) throw new NotFoundProduct(code);
     return product;
   }
 
