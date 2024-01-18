@@ -25,6 +25,7 @@ export class Bulk {
     logger.info('Setting transactions identities and status...');
     let enqueuedProducts = 0;
     const id = v4();
+    const queue = 'products';
     const status: TaskStatus = 'STARTED';
 
     logger.info(`Creating transaction under id "${id}"`);
@@ -36,13 +37,16 @@ export class Bulk {
         .on('data', (row) => {
           const keys = Object.keys(row);
           if (keys.length === 3) {
-            const handledRow = {
-              id: row[keys[0]], title: row[keys[1]], price: row[keys[2]],
+            const task = {
+              operationId: id,
+              code: row[keys[0]],
+              title: row[keys[1]],
+              price: row[keys[2]],
             };
 
-            logger.info(`Pushing "${JSON.stringify(handledRow)}" to queue...`);
+            logger.info(`Pushing "${JSON.stringify(task)}" to queue...`);
 
-            transaction.rPush(id, JSON.stringify(handledRow));
+            transaction.rPush(queue, JSON.stringify(task));
             enqueuedProducts += 1;
           }
         })
@@ -56,9 +60,12 @@ export class Bulk {
               const data = { taskId: id, enqueuedProducts };
               resolve(data);
             })
-            .catch((error) => {
+            .catch(async (error) => {
               logger.error('Something went wrong during commiting transaction!'
               + ` Details: ${error}`);
+
+              const newStatus = 'FAILED';
+              await this.repository.updateStatus(id, newStatus);
 
               transaction.discard();
               reject(error);
@@ -74,7 +81,7 @@ export class Bulk {
 
     if (response.success) {
       logger.info(`Sending task id "${id}" as "${status}" to repository...`);
-      await this.repository.create(id, status);
+      await this.repository.create(id, status, enqueuedProducts);
     }
 
     logger.info('Finishing "bulk" service/use-case.');

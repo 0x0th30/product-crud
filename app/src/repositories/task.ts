@@ -6,8 +6,8 @@ export class TaskRepository {
     private readonly client: PrismaClient,
   ) {}
 
-  public async create(id: string, status: TaskStatus): Promise<Task> {
-    const data = { id, status };
+  public async create(id: string, status: TaskStatus, enqueued: number): Promise<Task> {
+    const data = { id, status, enqueued };
 
     const task = await this.client.task.create({ data })
       .catch((error) => {

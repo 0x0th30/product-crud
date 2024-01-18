@@ -27,6 +27,7 @@ enum TaskStatus {
 model Task {
   id         String     @id @unique
   status     TaskStatus
+  enqueued   Int
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
 }
