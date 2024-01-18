@@ -43,8 +43,6 @@ export class ProcessProducts {
             ];
           }
 
-          console.log(operations);
-
           const productCounter = operations[operationId].length;
           const totalProductsPerTask = await this.task.readById(operationId)
             .then((data) => data.enqueued);
