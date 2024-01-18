@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/common/types"
+    ],
+    "rootDirs": [
+      "src",
+      "tests"
+    ],
+    "outDir": "./dist",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": ["src/api/*"],
+      "@repositories/*": ["src/repositories/*"],
+      "@providers/*": ["src/providers/*"],
+      "@use-cases/*": ["src/use-cases/*"],
+      "@types/*": ["src/common/types/*"],
+      "@utils/*": ["src/common/utils/*"],
+      "@errors/*": ["src/common/errors/*"],
+      "@loaders/*": ["src/common/loaders/*"],
+      "@contracts/*": ["src/common/contracts/*"],
+      "@entities/*": ["src/entities/*"],
+      "@tests/*": ["tests/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/types/global.d.ts",
+    "tests/**/*.ts"
+, "src/use-cases/read-by-search/read-by-search.middleware.ts"  ]
+}

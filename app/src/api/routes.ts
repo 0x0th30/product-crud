@@ -10,6 +10,10 @@ import { ReadByCodeMiddleware } from '@use-cases/read-by-code/read-by-code.middl
 import { UpdateSchema } from '@use-cases/update/update.schema';
 import { UpdateMiddleware } from '@use-cases/update/update.middleware';
 import { BulkMiddleware } from '@use-cases/bulk/bulk.middleware';
+import { CheckTaskStatusMiddleware }
+  from '@use-cases/check-task-status/check-task-status.middleware';
+import { CheckTaskStatusSchema }
+  from '@use-cases/check-task-status/check-task-status.schema';
 
 const router = Router();
 
@@ -36,6 +40,11 @@ router.patch(
 router.post(
   '/products/bulk',
   new BulkMiddleware().handle,
+);
+router.get(
+  '/products/bulk/:id',
+  SchemaValidator.getMiddleware(CheckTaskStatusSchema),
+  new CheckTaskStatusMiddleware().handle,
 );
 
 export { router };
