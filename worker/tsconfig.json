@@ -31,16 +31,12 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@api/*": ["src/api/*"],
       "@repositories/*": ["src/repositories/*"],
-      "@providers/*": ["src/providers/*"],
-      "@use-cases/*": ["src/use-cases/*"],
       "@types/*": ["src/common/types/*"],
       "@utils/*": ["src/common/utils/*"],
       "@errors/*": ["src/common/errors/*"],
       "@loaders/*": ["src/common/loaders/*"],
-      "@contracts/*": ["src/common/contracts/*"],
-      "@entities/*": ["src/entities/*"],
+      "@events/*": ["src/events/*"],
       "@tests/*": ["tests/*"]
     }
   },
