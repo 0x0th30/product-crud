@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { TaskRepository } from '@repositories/task';
+import { Redis } from '@loaders/redis';
 import { Bulk } from './bulk.business';
 import { BulkHTTPResponse } from './bulk.d';
 
@@ -8,18 +9,19 @@ const BulkBusiness = new Bulk(
   new TaskRepository(
     new PrismaClient(),
   ),
+  new Redis(),
 );
 
 export class BulkMiddleware {
   public async handle(request: Request, response: Response): Promise<Response> {
     const responseContent: BulkHTTPResponse = { success: false };
 
-    const create = await BulkBusiness.execute(request);
+    const bulk = await BulkBusiness.execute(request);
 
-    if (create.success && create.data) {
+    if (bulk.success && bulk.data) {
       responseContent.success = true;
-      responseContent.data = create.data;
-      return response.status(201).json(responseContent);
+      responseContent.data = bulk.data;
+      return response.status(202).json(responseContent);
     }
 
     responseContent.success = false;
