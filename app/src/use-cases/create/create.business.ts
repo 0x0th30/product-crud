@@ -4,7 +4,7 @@ import { CreateDTO } from './create.d';
 
 export class Create {
   constructor(
-    private readonly repository: ProductRepository,
+    private readonly productRepository: ProductRepository,
   ) {}
 
   public async execute(code: string, title: string, price: number): Promise<CreateDTO> {
@@ -12,7 +12,7 @@ export class Create {
     const response: CreateDTO = { success: false };
 
     logger.info('Sending received product data to repository...');
-    await this.repository.create(code, title, price)
+    await this.productRepository.create(code, title, price)
       .then((product) => {
         logger.info('Received created product from repository.');
         response.success = true;

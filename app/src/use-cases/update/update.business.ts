@@ -4,7 +4,7 @@ import { UpdateDTO } from './update.d';
 
 export class Update {
   constructor(
-    private readonly repository: ProductRepository,
+    private readonly productRepository: ProductRepository,
   ) { }
 
   public async execute(code: string, price: number): Promise<UpdateDTO> {
@@ -12,7 +12,7 @@ export class Update {
     const response: UpdateDTO = { success: false };
 
     logger.info('Sending received product data to repository...');
-    await this.repository.updatePrice(code, price)
+    await this.productRepository.updatePrice(code, price)
       .then((product) => {
         logger.info('Received updated product from repository.');
         response.success = true;

@@ -4,7 +4,7 @@ import { ReadByCodeDTO } from './read-by-code.d';
 
 export class ReadByCode {
   constructor(
-    private readonly repository: ProductRepository,
+    private readonly productRepository: ProductRepository,
   ) { }
 
   public async execute(code: string): Promise<ReadByCodeDTO> {
@@ -12,7 +12,7 @@ export class ReadByCode {
     const response: ReadByCodeDTO = { success: false };
 
     logger.info('Sending a read by code request to repository...');
-    await this.repository.readByCode(code)
+    await this.productRepository.readByCode(code)
       .then((product) => {
         logger.info('Received found products from repository.');
         response.success = true;

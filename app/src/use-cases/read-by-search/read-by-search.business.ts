@@ -7,7 +7,7 @@ export class ReadBySearch {
   private readonly MAX_RETURNED_ROWS = 50;
 
   constructor(
-    private readonly repository: ProductRepository,
+    private readonly productRepository: ProductRepository,
   ) { }
 
   public async execute(search: SearchParameters): Promise<ReadBySearchDTO> {
@@ -20,7 +20,7 @@ export class ReadBySearch {
     }
 
     logger.info('Sending a read by search request to repository...');
-    await this.repository.readBySearch(search)
+    await this.productRepository.readBySearch(search)
       .then((products) => {
         logger.info('Received found products from repository.');
         response.success = true;
