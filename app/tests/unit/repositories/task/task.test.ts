@@ -44,6 +44,17 @@ describe('TaskRepository class', () => {
         expect(error).toBeInstanceOf(NotUniqueId);
       });
     });
+    it('should re-throw error if not recognize it', () => {
+      const id = 'asdf';
+      const status = 'STARTED';
+      const enqueued = 5;
+
+      PrismaMock.task.create.mockRejectedValueOnce(new Error());
+
+      TaskRepositorySUT.create(id, status, enqueued).catch((error) => {
+        expect(error).toBeInstanceOf(Error);
+      });
+    });
     it('should return created task', () => {
       const id = 'asdf';
       const status = 'STARTED';

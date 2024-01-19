@@ -45,6 +45,17 @@ describe('ProductRepository class', () => {
         expect(error).toBeInstanceOf(NotUniqueId);
       });
     });
+    it('should re-throw error if not recognize it', () => {
+      const code = 'ASDF';
+      const title = 'foo';
+      const price = 10.45;
+
+      PrismaMock.product.create.mockRejectedValueOnce(new Error());
+
+      ProductRepositorySUT.create(code, title, price).catch((error) => {
+        expect(error).toBeInstanceOf(Error);
+      });
+    });
     it('should return created product', () => {
       const code = 'ASDF';
       const title = 'foo';
@@ -105,6 +116,17 @@ describe('ProductRepository class', () => {
 
       ProductRepositorySUT.createMany([{ code, title, price }]).catch((error) => {
         expect(error).toBeInstanceOf(NotUniqueId);
+      });
+    });
+    it('should re-throw error if not recognize it', () => {
+      const code = 'ASDF';
+      const title = 'foo';
+      const price = 10.45;
+
+      PrismaMock.product.createMany.mockRejectedValueOnce(new Error());
+
+      ProductRepositorySUT.createMany([{ code, title, price }]).catch((error) => {
+        expect(error).toBeInstanceOf(Error);
       });
     });
   });
