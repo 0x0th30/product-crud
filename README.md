@@ -4,11 +4,11 @@ A simple CRUD (Create, Read, Update, Delete) application for managing products.
 
 ## Table of Contents
 
-- Features
-- Installation
-- Usage
-- API Endpoints
-- Architectural Overview
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Architectural Overview](#architectural-overview)
 
 ## Features
 
@@ -31,7 +31,7 @@ cd product-crud
 
 ### Configure Environment Variables
 
-Remove the ".example" extension from all files in the "config/" folder and replace their content with your values.
+Remove the ".example" from all files in "config/" folder and replace it content with your values.
 
 ### Build and Startup Services
 
