@@ -2,6 +2,12 @@
 
 A simple CRUD (Create, Read, Update, Delete) application for managing products.
 
+[![Build](https://github.com/0x0th30/product-crud/actions/workflows/build.yml/badge.svg)](https://github.com/0x0th30/product-crud/actions/workflows/build.yml)
+[![Integration Tests](https://github.com/0x0th30/product-crud/actions/workflows/integration-tests.yml/badge.svg)](https://github.com/0x0th30/product-crud/actions/workflows/integration-tests.yml)
+[![Linter](https://github.com/0x0th30/product-crud/actions/workflows/linter.yml/badge.svg)](https://github.com/0x0th30/product-crud/actions/workflows/linter.yml)
+[![SCA](https://github.com/0x0th30/product-crud/actions/workflows/sca.yml/badge.svg)](https://github.com/0x0th30/product-crud/actions/workflows/sca.yml)
+[![Unit Test](https://github.com/0x0th30/product-crud/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/0x0th30/product-crud/actions/workflows/unit-tests.yml)
+
 ## Table of Contents
 
 - [Features](#features)
