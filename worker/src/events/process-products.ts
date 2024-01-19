@@ -1,69 +1,75 @@
+import { Task } from 'global';
 import { RedisClientType } from 'redis';
 import { Redis } from '@loaders/redis';
 import { ProductRepository } from '@repositories/product';
 import { TaskRepository } from '@repositories/task';
-import { logger } from '@utils/logger';
 import { TaskStatus } from '@prisma/client';
-
-const operations = {} as any;
+import { logger } from '@utils/logger';
 
 export class ProcessProducts {
   private redisClient: RedisClientType;
 
+  private tasks: any = {};
+
+  private readonly QUEUE = 'products';
+
+  private readonly QUEUE_TIMEOUT = 0;
+
   constructor(
-    private readonly product: ProductRepository,
-    private readonly task: TaskRepository,
+    private readonly productRepository: ProductRepository,
+    private readonly taskRepository: TaskRepository,
     redis: Redis,
   ) {
     this.redisClient = redis.getClient();
   }
 
   public async execute(): Promise<void> {
-    logger.info('Initializing "process-product" event handler...');
-    const queue = 'products';
-    const timeout = 0;
-
-    logger.info(`Listening "${queue}" queue...`);
-    this.redisClient.blPop(queue, timeout)
+    await this.redisClient.blPop(this.QUEUE, this.QUEUE_TIMEOUT)
       .then(async (value) => {
-        if (value && value.key === queue) {
-          logger.info(`Received new task in queue "${queue}"...`);
+        if (value && value.key === this.QUEUE) {
           const task = JSON.parse(value.element);
-          const { operationId } = task;
+          const { taskId } = task;
 
-          logger.info(`Processing task from operation id "${operationId}"...`);
-          const exists = Object.keys(operations).find((id) => id === operationId);
-          if (exists) {
-            operations[operationId].push(
-              { code: task.code, title: task.title, price: Number(task.price) },
-            );
-          } else {
-            operations[operationId] = [
-              { code: task.code, title: task.title, price: Number(task.price) },
-            ];
-          }
+          this.handleNewTask(task);
 
-          const productCounter = operations[operationId].length;
-          const totalProductsPerTask = await this.task.readById(operationId)
-            .then((data) => data.enqueued);
-
-          if (productCounter >= totalProductsPerTask) {
+          const receivedAllProductsFromTask = await this
+            .receivedAllProductsFromTask(taskId);
+          if (receivedAllProductsFromTask) {
             let status: TaskStatus = 'STARTED';
-            await this.product.createMany(operations[operationId])
-              .then(() => {
-                logger.info(`${productCounter}/${totalProductsPerTask} added products`
-                + ` from operation "${operationId}"...`);
-
-                status = 'FINISHED';
-              })
+            await this.productRepository.createMany(this.tasks[taskId])
+              .then(() => { status = 'FINISHED'; })
               .catch(() => { status = 'FAILED'; });
 
-            await this.task.updateStatus(operationId, status);
-            logger.info(`New operation "${operationId}" status is "${status}".`);
+            await this.taskRepository.updateStatus(taskId, status);
+            logger.info(`New task "${taskId}" status is "${status}".`);
+
+            this.tasks = {};
           }
         }
 
         return this.execute();
       });
+  }
+
+  private async receivedAllProductsFromTask(taskId: string): Promise<boolean> {
+    const productCounter = this.tasks[taskId].length;
+    const totalProductsPerTask = await this.taskRepository.readById(taskId)
+      .then((data) => data.enqueued)
+      .catch(() => this.receivedAllProductsFromTask(taskId));
+
+    return productCounter >= totalProductsPerTask;
+  }
+
+  private handleNewTask(task: Task): void {
+    const knownTask = Object.keys(this.tasks).find((id) => id === task.taskId);
+    if (knownTask) {
+      this.tasks[task.taskId].push(
+        { code: task.code, title: task.title, price: Number(task.price) },
+      );
+    } else {
+      this.tasks[task.taskId] = [
+        { code: task.code, title: task.title, price: Number(task.price) },
+      ];
+    }
   }
 }

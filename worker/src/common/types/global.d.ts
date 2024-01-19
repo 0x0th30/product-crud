@@ -8,8 +8,14 @@ export type SearchParameters = {
   keyword: string,
 };
 
+export type Product = {
+  code: string,
+  title: string,
+  price: number,
+}
+
 export type Task = {
-  operationId: number,
+  taskId: string,
   code: string,
   title: string,
   price: number,

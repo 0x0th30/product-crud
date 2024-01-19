@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { TaskRepository } from '@repositories/task';
-import { FileProcessor } from '@entities/file-processor';
 import { Redis } from '@loaders/redis';
 import { Bulk } from './bulk.business';
 import { BulkHTTPResponse } from './bulk.d';
@@ -9,11 +8,6 @@ import { BulkHTTPResponse } from './bulk.d';
 const BulkBusiness = new Bulk(
   new TaskRepository(
     new PrismaClient(),
-  ),
-  new FileProcessor(
-    new TaskRepository(
-      new PrismaClient(),
-    ),
   ),
   new Redis(),
 );

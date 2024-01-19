@@ -5,7 +5,6 @@ import { RedisClientType } from 'redis';
 import { TaskStatus } from '@prisma/client';
 import { TaskRepository } from '@repositories/task';
 import { Redis } from '@loaders/redis';
-import { FileProcessor } from '@entities/file-processor';
 import { logger } from '@utils/logger';
 import { BulkDTO } from './bulk.d';
 
@@ -14,11 +13,10 @@ export class Bulk {
 
   private enqueuedProducts = 0;
 
-  private readonly queue = 'products';
+  private readonly QUEUE = 'products';
 
   constructor(
-    private readonly repository: TaskRepository,
-    private readonly fileProcessor: FileProcessor,
+    private readonly task: TaskRepository,
     redis: Redis,
   ) {
     this.redisClient = redis.getClient();
@@ -36,40 +34,58 @@ export class Bulk {
     const transaction = this.redisClient.multi();
 
     logger.info('Reading stream from request...');
-    await new Promise(() => {
-      this.listenStream(taskId, transaction, request)
-        .then((value) => {
-          logger.info(`Sending task id "${taskId}" as "${status}" to repository...`);
-          this.repository.create(taskId, status, this.enqueuedProducts);
+    await new Promise((resolve, reject) => {
+      request.pipe(csvParser())
+        .on('data', (row) => {
+          const rowKeys = Object.keys(row);
+          if (rowKeys.length === 3) {
+            const handledRow = {
+              taskId,
+              code: row[rowKeys[0]],
+              title: row[rowKeys[1]],
+              price: row[rowKeys[2]],
+            };
 
-          response.success = true;
-          response.data = value as any;
-        }).catch((error) => {
-          response.success = false;
-          response.error = error;
+            logger.info(`Pushing "${JSON.stringify(handledRow)}" to queue...`);
+
+            transaction.rPush(this.QUEUE, JSON.stringify(handledRow));
+            this.enqueuedProducts += 1;
+          }
+        })
+        .on('end', () => {
+          logger.info('Finish to read stream. Commiting transaction...');
+          transaction.exec()
+            .then(() => {
+              logger.info('The transaction was successfully commited under task id'
+              + `"${taskId}" w/ ${this.enqueuedProducts} enqueued products`);
+
+              const data = { taskId, enqueuedProducts: this.enqueuedProducts };
+              resolve(data);
+            })
+            .catch((error) => {
+              logger.error('Something went wrong during commiting transaction!'
+              + ` Details: ${error}`);
+
+              transaction.discard();
+              reject(error);
+            });
         });
+    }).then((value) => {
+      response.success = true;
+      response.data = value as any;
+    }).catch((error) => {
+      response.success = false;
+      response.error = error;
     });
+
+    if (response.success) {
+      logger.info(`Sending task id "${taskId}" as "${status}" to task repository...`);
+      await this.task.create(taskId, status, this.enqueuedProducts);
+    }
+
+    this.enqueuedProducts = 0;
 
     logger.info('Finishing "bulk" service/use-case.');
     return response;
-  }
-
-  private async listenStream(taskId: string, transaction: any, request: Request)
-  : Promise<any> {
-    return new Promise((resolve, reject) => {
-      request.pipe(csvParser())
-        .on('data', (row) => {
-          this.fileProcessor.onStreamSendData(taskId, transaction, this.queue, row);
-          this.enqueuedProducts += 1;
-        })
-        .on('end', () => {
-          this.fileProcessor.onStreamEnds(transaction, taskId)
-            .then(() => {
-              const task = { taskId, enqueuedProducts: this.enqueuedProducts };
-              resolve(task);
-            })
-            .catch((error) => reject(error));
-        });
-    });
   }
 }

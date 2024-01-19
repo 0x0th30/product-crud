@@ -26,8 +26,6 @@ export class ProductRepository {
         if (error.code === 'P2002') throw new NotUniqueId('asdf');
         throw error;
       });
-
-    // return products;
   }
 
   public async readByCode(code: string): Promise<Product> {
