@@ -34,8 +34,9 @@
     "test:integration:verbose": "jest --silent --verbose integration",
     "test:unit:quiet": "jest --silent --coverage unit",
     "test:unit:verbose": "jest --silent --verbose --coverage unit",
-    "start:dev": "ts-node-dev -r tsconfig-paths/register src/main.ts",
-    "start:prod": "node dist/main.js",
+    "start:prisma": "prisma generate && prisma migrate deploy",
+    "start:dev": "yarn start:prisma && ts-node-dev -r tsconfig-paths/register src/main.ts",
+    "start:prod": "yarn start:prisma && node dist/main.js",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   },
   "dependencies": {

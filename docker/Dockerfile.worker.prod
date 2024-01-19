@@ -1,0 +1,18 @@
+FROM node:18-alpine as builder
+USER node
+WORKDIR /worker
+COPY --chown=node:node worker/package.json .
+RUN yarn install
+COPY --chown=node:node worker .
+RUN yarn build
+ 
+FROM node:18-alpine
+USER node
+ENV NODE_ENV=prod
+WORKDIR /worker
+COPY --from=builder --chown=node:node /worker/package.json .
+EXPOSE 3000
+RUN yarn install --production=true
+COPY --from=builder --chown=node:node /worker/prisma .
+COPY --from=builder --chown=node:node /worker/dist dist
+CMD [ "yarn", "start:prod" ]

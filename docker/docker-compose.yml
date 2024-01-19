@@ -3,7 +3,7 @@ services:
     container_name: product-crud-api
     build:
       context: ..
-      dockerfile: docker/Dockerfile.app.dev
+      dockerfile: docker/Dockerfile.app.prod
     env_file:
       - ../config/app.env
     depends_on:
@@ -19,7 +19,7 @@ services:
     container_name: product-crud-worker
     build:
       context: ..
-      dockerfile: docker/Dockerfile.worker.dev
+      dockerfile: docker/Dockerfile.worker.prod
     env_file:
       - ../config/app.env
     depends_on:
