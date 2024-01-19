@@ -226,7 +226,7 @@ describe('ProductRepository class', () => {
       });
     });
   });
-  describe('(public} updatePrice method', () => {
+  describe('(public) updatePrice method', () => {
     it('should call "product.update"', () => {
       const code = 'ASDF';
       const price = 10.45;
