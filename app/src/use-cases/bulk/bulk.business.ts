@@ -5,14 +5,20 @@ import { RedisClientType } from 'redis';
 import { TaskStatus } from '@prisma/client';
 import { TaskRepository } from '@repositories/task';
 import { Redis } from '@loaders/redis';
+import { FileProcessor } from '@entities/file-processor';
 import { logger } from '@utils/logger';
 import { BulkDTO } from './bulk.d';
 
 export class Bulk {
   private redisClient: RedisClientType;
 
+  private enqueuedProducts = 0;
+
+  private readonly queue = 'products';
+
   constructor(
     private readonly repository: TaskRepository,
+    private readonly fileProcessor: FileProcessor,
     redis: Redis,
   ) {
     this.redisClient = redis.getClient();
@@ -23,68 +29,47 @@ export class Bulk {
     const response: BulkDTO = { success: false };
 
     logger.info('Setting transactions identities and status...');
-    let enqueuedProducts = 0;
-    const id = v4();
-    const queue = 'products';
+    const taskId = v4();
     const status: TaskStatus = 'STARTED';
 
-    logger.info(`Creating transaction under id "${id}"`);
+    logger.info(`Creating transaction under id "${taskId}"`);
     const transaction = this.redisClient.multi();
 
     logger.info('Reading stream from request...');
-    await new Promise((resolve, reject) => {
-      request.pipe(csvParser())
-        .on('data', (row) => {
-          const keys = Object.keys(row);
-          if (keys.length === 3) {
-            const task = {
-              operationId: id,
-              code: row[keys[0]],
-              title: row[keys[1]],
-              price: row[keys[2]],
-            };
+    await new Promise(() => {
+      this.listenStream(taskId, transaction, request)
+        .then((value) => {
+          logger.info(`Sending task id "${taskId}" as "${status}" to repository...`);
+          this.repository.create(taskId, status, this.enqueuedProducts);
 
-            logger.info(`Pushing "${JSON.stringify(task)}" to queue...`);
-
-            transaction.rPush(queue, JSON.stringify(task));
-            enqueuedProducts += 1;
-          }
-        })
-        .on('end', () => {
-          logger.info('Finish to read stream. Commiting transaction...');
-          transaction.exec()
-            .then(() => {
-              logger.info('The transaction was successfully commited under task id'
-              + `"${id}" w/ ${enqueuedProducts} enqueued products`);
-
-              const data = { taskId: id, enqueuedProducts };
-              resolve(data);
-            })
-            .catch(async (error) => {
-              logger.error('Something went wrong during commiting transaction!'
-              + ` Details: ${error}`);
-
-              const newStatus = 'FAILED';
-              await this.repository.updateStatus(id, newStatus);
-
-              transaction.discard();
-              reject(error);
-            });
+          response.success = true;
+          response.data = value as any;
+        }).catch((error) => {
+          response.success = false;
+          response.error = error;
         });
-    }).then((value) => {
-      response.success = true;
-      response.data = value as any;
-    }).catch((error) => {
-      response.success = false;
-      response.error = error;
     });
-
-    if (response.success) {
-      logger.info(`Sending task id "${id}" as "${status}" to repository...`);
-      await this.repository.create(id, status, enqueuedProducts);
-    }
 
     logger.info('Finishing "bulk" service/use-case.');
     return response;
+  }
+
+  private async listenStream(taskId: string, transaction: any, request: Request)
+  : Promise<any> {
+    return new Promise((resolve, reject) => {
+      request.pipe(csvParser())
+        .on('data', (row) => {
+          this.fileProcessor.onStreamSendData(taskId, transaction, this.queue, row);
+          this.enqueuedProducts += 1;
+        })
+        .on('end', () => {
+          this.fileProcessor.onStreamEnds(transaction, taskId)
+            .then(() => {
+              const task = { taskId, enqueuedProducts: this.enqueuedProducts };
+              resolve(task);
+            })
+            .catch((error) => reject(error));
+        });
+    });
   }
 }
