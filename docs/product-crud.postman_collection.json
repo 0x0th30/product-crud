@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"code\": \"asdfab\",\n    \"title\": \"pepsi\",\n    \"price\": 10.50\n}",
+					"raw": "{\n    \"code\": \"asdfaba\",\n    \"title\": \"coke\",\n    \"price\": 10.50\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -31,6 +31,38 @@
 						"api",
 						"v1",
 						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bulk",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "fake.csk",
+							"type": "file",
+							"src": "/home/theo/www/github/fake.csv"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/products/bulk",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"bulk"
 					]
 				}
 			},
@@ -73,7 +105,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/v1/products?page=1&limit=1&keyword=ke",
+					"raw": "http://localhost:3000/api/v1/products?page=1&limit=10&keyword=co",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -91,11 +123,11 @@
 						},
 						{
 							"key": "limit",
-							"value": "1"
+							"value": "10"
 						},
 						{
 							"key": "keyword",
-							"value": "ke"
+							"value": "co"
 						}
 					]
 				}
@@ -119,6 +151,29 @@
 						"v1",
 						"products",
 						"asdf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check task status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/products/bulk/5b2b0e15-de60-41bb-a113-17bfcfa060b0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"bulk",
+						"5b2b0e15-de60-41bb-a113-17bfcfa060b0"
 					]
 				}
 			},
