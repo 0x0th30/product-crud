@@ -13,6 +13,20 @@ services:
       - redis
       - postgres
 
+  worker:
+    container_name: product-crud-worker
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.worker.dev
+    env_file:
+      - ../config/app.env
+    depends_on:
+      - redis
+      - postgres
+    links:
+      - redis
+      - postgres
+
   redis:
     container_name: product-crud-redis
     image: redis
