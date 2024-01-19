@@ -39,8 +39,15 @@ Remove the ".example" from all files in "config/" folder and replace it content 
 docker compose -f docker/docker-compose.yml build
 docker compose -f docker/docker-compose.yml up -d
 ```
-
 Visit [http://localhost:3000](http://localhost:3000) to access the application.
+
+## Testing
+
+### Running Unit Tests
+Run the command bellow inside `app/` and `worker/` folders to run unit tests:
+```bash
+yarn test:unit:verbose
+```
 
 ## API Endpoints
 
