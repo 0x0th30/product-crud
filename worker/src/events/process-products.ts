@@ -29,7 +29,13 @@ export class ProcessProducts {
       .then(async (value) => {
         if (value && value.key === this.QUEUE) {
           logger.info('Processing received row...');
-          const task = JSON.parse(value.element);
+          const parsedRow = JSON.parse(value.element);
+          const task = {
+            taskId: parsedRow.taskId,
+            code: parsedRow.code,
+            title: parsedRow.title,
+            price: Number(parsedRow.price),
+          };
           const { taskId } = task;
 
           logger.info(`Handling received task "${task}"...`);
