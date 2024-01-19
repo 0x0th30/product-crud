@@ -4,6 +4,8 @@ import { logger } from '@utils/logger';
 import { ReadBySearchDTO } from './read-by-search.d';
 
 export class ReadBySearch {
+  private readonly MAX_RETURNED_ROWS = 50;
+
   constructor(
     private readonly repository: ProductRepository,
   ) { }
@@ -11,6 +13,11 @@ export class ReadBySearch {
   public async execute(search: SearchParameters): Promise<ReadBySearchDTO> {
     logger.info('Initializing "read-by-search" service/use-case...');
     const response: ReadBySearchDTO = { success: false };
+
+    if (search.pagination.limit > this.MAX_RETURNED_ROWS) {
+      // eslint-disable-next-line no-param-reassign
+      search.pagination.limit = this.MAX_RETURNED_ROWS;
+    }
 
     logger.info('Sending a read by search request to repository...');
     await this.repository.readBySearch(search)

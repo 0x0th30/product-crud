@@ -18,6 +18,16 @@ export class ProductRepository {
     return product;
   }
 
+  public async createMany(
+    entries: Array<{ code: string, title: string, price: number }>,
+  ): Promise<void> {
+    await this.client.product.createMany({ data: entries })
+      .catch((error) => {
+        if (error.code === 'P2002') throw new NotUniqueId('asdf');
+        throw error;
+      });
+  }
+
   public async readByCode(code: string): Promise<Product> {
     const where = { code };
 

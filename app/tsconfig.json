@@ -41,7 +41,8 @@
       "@loaders/*": ["src/common/loaders/*"],
       "@contracts/*": ["src/common/contracts/*"],
       "@entities/*": ["src/entities/*"],
-      "@tests/*": ["tests/*"]
+      "@tests/*": ["tests/*"],
+      "@mocks/*": ["tests/unit/mocks/*"]
     }
   },
   "include": [

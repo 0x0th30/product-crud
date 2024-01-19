@@ -37,7 +37,8 @@
       "@errors/*": ["src/common/errors/*"],
       "@loaders/*": ["src/common/loaders/*"],
       "@events/*": ["src/events/*"],
-      "@tests/*": ["tests/*"]
+      "@tests/*": ["tests/*"],
+      "@mocks/*": ["tests/unit/mocks/*"]
     }
   },
   "include": [
