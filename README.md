@@ -8,7 +8,7 @@ A simple CRUD (Create, Read, Update, Delete) application for managing products.
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
-- [Testing](#testing)
+- [Architectural Overview](#architectural-overview)
 
 ## Features
 
@@ -76,3 +76,10 @@ Visit [http://localhost:3000](http://localhost:3000) to access the application.
     ```
 
 - `GET /api/products/bulk/:taskId`: Checks the status of bulk processing task.
+
+To more detailed endpoint specifications, download and import the [Postman Collection](docs/product-crud.postman_collection.json).
+
+## Architectural Overview
+
+Check the high-level architecture in the diagram bellow:
+![image](docs/product-crud.architecture.png)
