@@ -12,6 +12,8 @@ services:
     links:
       - redis
       - postgres
+    ports:
+      - 3000:3000
 
   worker:
     container_name: product-crud-worker
@@ -32,8 +34,6 @@ services:
     image: redis
     env_file:
       - ../config/redis.env
-    ports:
-      - 6379:6379
 
   postgres:
     container_name: product-crud-postgres
@@ -42,5 +42,3 @@ services:
       - ../volumes/postgres/data:/var/lib/postgresql/data
     env_file:
       - ../config/postgres.env
-    ports:
-      - 5432:5432
