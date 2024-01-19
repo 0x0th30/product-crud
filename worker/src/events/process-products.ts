@@ -24,16 +24,21 @@ export class ProcessProducts {
   }
 
   public async execute(): Promise<void> {
+    logger.info(`Listening to queue "${this.QUEUE}"...`);
     await this.redisClient.blPop(this.QUEUE, this.QUEUE_TIMEOUT)
       .then(async (value) => {
         if (value && value.key === this.QUEUE) {
+          logger.info('Processing received row...');
           const task = JSON.parse(value.element);
           const { taskId } = task;
 
+          logger.info(`Handling received task "${task}"...`);
           this.handleNewTask(task);
 
+          logger.info(`Check if all products from task "${taskId}" was received...`);
           const receivedAllProductsFromTask = await this
             .receivedAllProductsFromTask(taskId);
+
           if (receivedAllProductsFromTask) {
             let status: TaskStatus = 'STARTED';
             await this.productRepository.createMany(this.tasks[taskId])
@@ -43,7 +48,8 @@ export class ProcessProducts {
             await this.taskRepository.updateStatus(taskId, status);
             logger.info(`New task "${taskId}" status is "${status}".`);
 
-            this.tasks = {};
+            logger.info(`Cleaning in-memory registries about task "${taskId}"...`);
+            delete this.tasks[taskId];
           }
         }
 
