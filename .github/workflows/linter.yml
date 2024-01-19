@@ -22,13 +22,13 @@ jobs:
     - name: Running linter
       run: cd app && yarn lint
 
-  # worker-lint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v3
+  worker-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
 
-  #   - name: Installing modules
-  #     run: cd worker && yarn install
+    - name: Installing modules
+      run: cd worker && yarn install
 
-  #   - name: Running linter
-  #     run: cd worker && yarn lint
+    - name: Running linter
+      run: cd worker && yarn lint

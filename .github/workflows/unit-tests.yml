@@ -22,13 +22,13 @@ jobs:
     - name: Running tests suite
       run: cd app && yarn test:unit:quiet
 
-  # worker-unit-tests:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v3
+  worker-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
 
-  #   - name: Installing modules
-  #     run: cd worker && yarn install
+    - name: Installing modules
+      run: cd worker && yarn install
 
-  #   - name: Running tests suite
-  #     run: cd worker && yarn test:unit:quiet
+    - name: Running tests suite
+      run: cd worker && yarn test:unit:quiet

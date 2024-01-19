@@ -22,13 +22,13 @@ jobs:
     - name: Running SCA
       run: cd app && yarn sca
 
-  # worker-sca:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v3
+  worker-sca:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
 
-  #   - name: Installing modules
-  #     run: cd worker && yarn install
+    - name: Installing modules
+      run: cd worker && yarn install
 
-  #   - name: Running SCA
-  #     run: cd worker && yarn sca
+    - name: Running SCA
+      run: cd worker && yarn sca
