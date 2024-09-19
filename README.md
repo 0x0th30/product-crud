@@ -31,7 +31,7 @@ A simple CRUD (Create, Read, Update, Delete) application for managing products.
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/product-crud.git
+git clone https://github.com/0x0th30/product-crud.git
 cd product-crud
 ```
 
@@ -47,12 +47,19 @@ docker compose -f docker/docker-compose.yml up -d
 ```
 Visit [http://localhost:3000](http://localhost:3000) to access the application.
 
-## Testing
+## Testing & Linting
 
 ### Running Unit Tests
 Run the command bellow inside `app/` and `worker/` folders to run unit tests:
 ```bash
 yarn test:unit:verbose
+```
+
+### Linting
+Run the command bellow inside `app/` and `worker/` folders to lint (or lint and fix):
+```bash
+yarn lint
+yarn lint:fix
 ```
 
 ## API Endpoints
