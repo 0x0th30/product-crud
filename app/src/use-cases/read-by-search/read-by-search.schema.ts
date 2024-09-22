@@ -4,6 +4,6 @@ export const ReadBySearchSchema = z.object({
   query: z.object({
     page: z.string(),
     limit: z.string(),
-    keyword: z.string().optional(),
+    keyword: z.string().max(20).optional(),
   }),
 });
