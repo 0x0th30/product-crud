@@ -1,6 +1,7 @@
 import express from 'express';
 import { router } from '@api/routes';
 import { logger } from '@utils/logger';
+import cors from 'cors';
 
 export class Server {
   private app = express();
@@ -11,6 +12,7 @@ export class Server {
 
   private loadServerConfigs(): void {
     logger.info('Setting up server configs...');
+    this.app.use(cors());
     this.app.use(express.json());
     this.app.use('/api/v1', router);
   }

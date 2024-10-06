@@ -8,8 +8,8 @@
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.6",
-    "@types/uuid": "^9.0.7",
     "@types/redis": "^4.0.11",
+    "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
     "babel-plugin-tsconfig-paths-module-resolver": "^1.0.3",
@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.8.0",
+    "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
     "express": "^4.20.0",
     "moment": "^2.30.1",
@@ -55,7 +56,6 @@
     "micromatch": ">=4.0.8",
     "braces": ">=3.0.3",
     "body-parser": ">=1.20.3",
-    "send": ">=0.19.0 ",
-    "path-to-regexp": ">=0.1.10"
+    "send": ">=0.19.0 "
   }
 }
