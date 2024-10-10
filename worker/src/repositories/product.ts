@@ -7,8 +7,15 @@ export class ProductRepository {
     private readonly client: PrismaClient,
   ) { }
 
-  public async create(code: string, title: string, price: number): Promise<Product> {
-    const data = { code, title, price };
+  public async create(
+    code: string,
+    name: string,
+    price: number,
+    quantity: number,
+  ): Promise<Product> {
+    const data = {
+      code, name, price, quantity,
+    };
     const product = await this.client.product.create({ data })
       .catch((error) => {
         if (error.code === 'P2002') throw new NotUniqueId(code);
@@ -19,7 +26,7 @@ export class ProductRepository {
   }
 
   public async createMany(
-    entries: Array<{ code: string, title: string, price: number }>,
+    entries: Array<{ code: string, name: string, price: number, quantity: number }>,
   ): Promise<void> {
     await this.client.product.createMany({ data: entries })
       .catch((error) => {
@@ -41,7 +48,7 @@ export class ProductRepository {
     const skip = ((search.pagination.page - 1) * search.pagination.limit);
 
     if (search.keyword) {
-      const where = { title: { contains: search.keyword } };
+      const where = { name: { contains: search.keyword } };
       const products = await this.client.product.findMany({ skip, where });
       return products;
     }

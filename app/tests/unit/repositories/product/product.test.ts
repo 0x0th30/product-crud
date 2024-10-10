@@ -11,71 +11,82 @@ describe('ProductRepository class', () => {
   describe('(public) create method', () => {
     it('should call "product.create"', () => {
       const code = 'ASDF';
-      const title = 'foo';
+      const name = 'foo';
       const price = 10.45;
+      const quantity = 10;
 
       PrismaMock.product.create.mockResolvedValueOnce(null as any);
 
-      ProductRepositorySUT.create(code, title, price);
+      ProductRepositorySUT.create(code, name, price, quantity);
 
       expect(PrismaMock.product.create).toHaveBeenCalled();
     });
     it('should call "product.create" w/ received parameter', () => {
       const code = 'ASDF';
-      const title = 'foo';
+      const name = 'foo';
       const price = 10.45;
+      const quantity = 10;
 
       PrismaMock.product.create.mockResolvedValueOnce(null as any);
 
-      ProductRepositorySUT.create(code, title, price);
-      const expectedParameters = { data: { code, title, price } };
+      ProductRepositorySUT.create(code, name, price, quantity);
+      const expectedParameters = {
+        data: {
+          code, name, price, quantity,
+        },
+      };
 
       expect(PrismaMock.product.create).toHaveBeenCalledWith(expectedParameters);
     });
     it('should throw "NotUniqueId" if error code is "P2002"', () => {
       const code = 'ASDF';
-      const title = 'foo';
+      const name = 'foo';
       const price = 10.45;
+      const quantity = 10;
 
       PrismaMock.product.create.mockRejectedValueOnce(
         new PrismaClientKnownRequestError('foo', { code: 'P2002', clientVersion: '0' }),
       );
 
-      ProductRepositorySUT.create(code, title, price).catch((error) => {
+      ProductRepositorySUT.create(code, name, price, quantity).catch((error) => {
         expect(error).toBeInstanceOf(NotUniqueId);
       });
     });
     it('should re-throw error if not recognize it', () => {
       const code = 'ASDF';
-      const title = 'foo';
+      const name = 'foo';
       const price = 10.45;
+      const quantity = 10;
 
       PrismaMock.product.create.mockRejectedValueOnce(new Error());
 
-      ProductRepositorySUT.create(code, title, price).catch((error) => {
+      ProductRepositorySUT.create(code, name, price, quantity).catch((error) => {
         expect(error).toBeInstanceOf(Error);
       });
     });
     it('should return created product', () => {
       const code = 'ASDF';
-      const title = 'foo';
+      const name = 'foo';
       const price = 10.45;
+      const quantity = 10;
       const createdAt = new Date('2024-01-19T06:03:33.706Z');
       const updatedAt = new Date('2024-01-19T06:03:33.706Z');
 
       PrismaMock.product.create.mockResolvedValueOnce({
         code,
-        title,
+        name,
         price,
+        quantity,
         created_at: createdAt,
         updated_at: updatedAt,
       });
 
-      ProductRepositorySUT.create(code, title, price)
+      ProductRepositorySUT.create(code, name, price, quantity)
         .then((product) => {
           expect(product.code).toEqual(code);
-          expect(product.title).toEqual(title);
+          expect(product.name).toEqual(name);
           expect(product.price).toEqual(price);
+          expect(product.quantity).toEqual(quantity);
           expect(product.created_at).toEqual(createdAt);
           expect(product.updated_at).toEqual(updatedAt);
         });
@@ -84,48 +95,64 @@ describe('ProductRepository class', () => {
   describe('(public) createMany method', () => {
     it('should call "product.createMany"', () => {
       const code = 'ASDF';
-      const title = 'foo';
+      const name = 'foo';
       const price = 10.45;
+      const quantity = 10;
 
       PrismaMock.product.createMany.mockResolvedValueOnce(null as any);
 
-      ProductRepositorySUT.createMany([{ code, title, price }]);
+      ProductRepositorySUT.createMany([{
+        code, name, price, quantity,
+      }]);
 
       expect(PrismaMock.product.createMany).toHaveBeenCalled();
     });
     it('should call "product.createMany" w/ received content', () => {
       const code = 'ASDF';
-      const title = 'foo';
+      const name = 'foo';
       const price = 10.45;
+      const quantity = 10;
 
       PrismaMock.product.createMany.mockResolvedValueOnce(null as any);
 
-      ProductRepositorySUT.createMany([{ code, title, price }]);
-      const expectedParameters = { data: [{ code, title, price }] };
+      ProductRepositorySUT.createMany([{
+        code, name, price, quantity,
+      }]);
+      const expectedParameters = {
+        data: [{
+          code, name, price, quantity,
+        }],
+      };
 
       expect(PrismaMock.product.createMany).toHaveBeenCalledWith(expectedParameters);
     });
     it('should throw "NotUniqueId" if error code is "P2002"', () => {
       const code = 'ASDF';
-      const title = 'foo';
+      const name = 'foo';
       const price = 10.45;
+      const quantity = 10;
 
       PrismaMock.product.createMany.mockRejectedValueOnce(
         new PrismaClientKnownRequestError('foo', { code: 'P2002', clientVersion: '0' }),
       );
 
-      ProductRepositorySUT.createMany([{ code, title, price }]).catch((error) => {
+      ProductRepositorySUT.createMany([{
+        code, name, price, quantity,
+      }]).catch((error) => {
         expect(error).toBeInstanceOf(NotUniqueId);
       });
     });
     it('should re-throw error if not recognize it', () => {
       const code = 'ASDF';
-      const title = 'foo';
+      const name = 'foo';
       const price = 10.45;
+      const quantity = 10;
 
       PrismaMock.product.createMany.mockRejectedValueOnce(new Error());
 
-      ProductRepositorySUT.createMany([{ code, title, price }]).catch((error) => {
+      ProductRepositorySUT.createMany([{
+        code, name, price, quantity,
+      }]).catch((error) => {
         expect(error).toBeInstanceOf(Error);
       });
     });
@@ -164,8 +191,9 @@ describe('ProductRepository class', () => {
 
       const expectedProduct = {
         code: 'asdf',
-        title: 'bar',
+        name: 'bar',
         price: 0.99,
+        quantity: 10,
         created_at: new Date('2024-01-19T06:03:33.706Z'),
         updated_at: new Date('2024-01-19T06:03:33.706Z'),
       };
@@ -213,7 +241,12 @@ describe('ProductRepository class', () => {
 
       ProductRepositorySUT.readBySearch(search);
       const skip = ((search.pagination.page - 1) * search.pagination.limit);
-      const where = { title: { contains: search.keyword } };
+      const where = {
+        OR: [
+          { code: { contains: search.keyword, mode: 'insensitive' } },
+          { name: { contains: search.keyword, mode: 'insensitive' } },
+        ],
+      };
       const expectedParameters = { skip, where };
 
       expect(PrismaMock.product.findMany).toHaveBeenCalledWith(expectedParameters);
@@ -227,15 +260,17 @@ describe('ProductRepository class', () => {
       const expectedProducts = [
         {
           code: 'foo1',
-          title: 'bar',
+          name: 'bar',
           price: 0.99,
+          quantity: 10,
           created_at: new Date('2024-01-19T06:03:33.706Z'),
           updated_at: new Date('2024-01-19T06:03:33.706Z'),
         },
         {
           code: 'foo2',
-          title: 'bar',
+          name: 'bar',
           price: 0.99,
+          quantity: 10,
           created_at: new Date('2024-01-19T06:03:33.706Z'),
           updated_at: new Date('2024-01-19T06:03:33.706Z'),
         },
@@ -248,14 +283,14 @@ describe('ProductRepository class', () => {
       });
     });
   });
-  describe('(public) updatePrice method', () => {
+  describe('(public) update method', () => {
     it('should call "product.update"', () => {
       const code = 'ASDF';
       const price = 10.45;
 
       PrismaMock.product.update.mockResolvedValueOnce(null as any);
 
-      ProductRepositorySUT.updatePrice(code, price);
+      ProductRepositorySUT.update(code, undefined, price, undefined);
 
       expect(PrismaMock.product.update).toHaveBeenCalled();
     });
@@ -265,7 +300,7 @@ describe('ProductRepository class', () => {
 
       PrismaMock.product.update.mockResolvedValueOnce(null as any);
 
-      ProductRepositorySUT.updatePrice(code, price);
+      ProductRepositorySUT.update(code, undefined, price, undefined);
       const where = { code };
       const data = { price };
       const expectedParameters = { where, data };
@@ -278,14 +313,15 @@ describe('ProductRepository class', () => {
 
       const expectedProduct = {
         code: 'ASDF',
-        title: 'bar',
+        name: 'bar',
         price: 10.45,
+        quantity: 10,
         created_at: new Date('2024-01-19T06:03:33.706Z'),
         updated_at: new Date('2024-01-19T06:03:33.706Z'),
       };
       PrismaMock.product.update.mockResolvedValueOnce(expectedProduct);
 
-      ProductRepositorySUT.updatePrice(code, price).then((product) => {
+      ProductRepositorySUT.update(code, undefined, price, undefined).then((product) => {
         expect(product).toEqual(expectedProduct);
       });
     });

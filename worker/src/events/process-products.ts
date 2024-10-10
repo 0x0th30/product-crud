@@ -33,8 +33,9 @@ export class ProcessProducts {
           const task = {
             taskId: parsedRow.taskId,
             code: parsedRow.code,
-            title: parsedRow.title,
+            name: parsedRow.name,
             price: Number(parsedRow.price),
+            quantity: Number(parsedRow.quantity),
           };
           const { taskId } = task;
 
@@ -76,11 +77,21 @@ export class ProcessProducts {
     const knownTask = Object.keys(this.tasks).find((id) => id === task.taskId);
     if (knownTask) {
       this.tasks[task.taskId].push(
-        { code: task.code, title: task.title, price: Number(task.price) },
+        {
+          code: task.code,
+          name: task.name,
+          price: Number(task.price),
+          quantity: Number(task.quantity),
+        },
       );
     } else {
       this.tasks[task.taskId] = [
-        { code: task.code, title: task.title, price: Number(task.price) },
+        {
+          code: task.code,
+          name: task.name,
+          price: Number(task.price),
+          quantity: Number(task.quantity),
+        },
       ];
     }
   }

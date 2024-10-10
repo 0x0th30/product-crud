@@ -10,13 +10,15 @@ export type SearchParameters = {
 
 export type Product = {
   code: string,
-  title: string,
+  name: string,
   price: number,
+  quantity: number,
 }
 
 export type Task = {
   taskId: string,
   code: string,
-  title: string,
+  name: string,
   price: number,
+  quantity: number,
 };

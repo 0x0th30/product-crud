@@ -7,8 +7,15 @@ export class ProductRepository {
     private readonly client: PrismaClient,
   ) { }
 
-  public async create(code: string, title: string, price: number): Promise<Product> {
-    const data = { code, title, price };
+  public async create(
+    code: string,
+    name: string,
+    price: number,
+    quantity: number,
+  ): Promise<Product> {
+    const data = {
+      code, name, price, quantity,
+    };
     const product = await this.client.product.create({ data })
       .catch((error) => {
         if (error.code === 'P2002') throw new NotUniqueId(code);
@@ -19,7 +26,7 @@ export class ProductRepository {
   }
 
   public async createMany(
-    entries: Array<{ code: string, title: string, price: number }>,
+    entries: Array<{ code: string, name: string, price: number, quantity: number }>,
   ): Promise<void> {
     await this.client.product.createMany({ data: entries })
       .catch((error) => {
@@ -41,7 +48,12 @@ export class ProductRepository {
     const skip = ((search.pagination.page - 1) * search.pagination.limit);
 
     if (search.keyword) {
-      const where = { title: { contains: search.keyword } };
+      const where = {
+        OR: [
+          { code: { contains: search.keyword, mode: 'insensitive' } },
+          { name: { contains: search.keyword, mode: 'insensitive' } },
+        ],
+      } as any;
       const products = await this.client.product.findMany({ skip, where });
       return products;
     }
@@ -50,12 +62,24 @@ export class ProductRepository {
     return products;
   }
 
-  public async updatePrice(code: string, price: number): Promise<Product> {
+  public async update(
+    code: string,
+    name?: string,
+    price?: number,
+    quantity?: number,
+  ): Promise<Product> {
     const where = { code };
-    const data = { price };
+    const data = { name, price, quantity };
 
     const product = await this.client.product.update({ where, data });
 
     return product;
+  }
+
+  public async deleteMany(codes: string[]): Promise<number> {
+    const where = { code: { in: codes } };
+
+    const { count } = await this.client.product.deleteMany({ where });
+    return count;
   }
 }

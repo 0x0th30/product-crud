@@ -14,6 +14,8 @@ import { CheckTaskStatusMiddleware }
   from '@use-cases/check-task-status/check-task-status.middleware';
 import { CheckTaskStatusSchema }
   from '@use-cases/check-task-status/check-task-status.schema';
+import { DeleteMiddleware } from '@use-cases/delete/delete.middleware';
+import { DeleteSchema } from '@use-cases/delete/delete.schema';
 
 const router = Router();
 
@@ -45,6 +47,11 @@ router.get(
   '/products/bulk/:id',
   SchemaValidator.getMiddleware(CheckTaskStatusSchema),
   new CheckTaskStatusMiddleware().handle,
+);
+router.delete(
+  '/products',
+  SchemaValidator.getMiddleware(DeleteSchema),
+  new DeleteMiddleware().handle,
 );
 
 export { router };

@@ -10,21 +10,22 @@ describe('Update class', () => {
       const code = 'asdf';
       const price = 10.45;
 
-      ProductRepositoryMock.updatePrice.mockResolvedValueOnce(null as any);
+      ProductRepositoryMock.update.mockResolvedValueOnce(null as any);
 
-      UpdateSUT.execute(code, price);
+      UpdateSUT.execute(code, undefined, price, undefined);
 
-      expect(ProductRepositoryMock.updatePrice).toHaveBeenCalled();
+      expect(ProductRepositoryMock.update).toHaveBeenCalled();
     });
     it('should call "productRepository.update" method w/ provided parameters', () => {
       const code = 'asdf';
       const price = 10.45;
 
-      ProductRepositoryMock.updatePrice.mockResolvedValueOnce(null as any);
+      ProductRepositoryMock.update.mockResolvedValueOnce(null as any);
 
-      UpdateSUT.execute(code, price);
+      UpdateSUT.execute(code, undefined, price, undefined);
 
-      expect(ProductRepositoryMock.updatePrice).toHaveBeenCalledWith(code, price);
+      expect(ProductRepositoryMock.update)
+        .toHaveBeenCalledWith(code, undefined, price, undefined);
     });
     it('should return success DTO in case of success', () => {
       const code = 'asdf';
@@ -32,8 +33,9 @@ describe('Update class', () => {
 
       const product = {
         code: 'asdf',
-        title: 'foo',
+        name: 'foo',
         price: 10.45,
+        quantity: 10,
         created_at: new Date('2024-01-19T06:03:33.706Z'),
         updated_at: new Date('2024-01-19T06:03:33.706Z'),
       };
@@ -42,9 +44,9 @@ describe('Update class', () => {
         data: { product },
       };
 
-      ProductRepositoryMock.updatePrice.mockResolvedValueOnce(product);
+      ProductRepositoryMock.update.mockResolvedValueOnce(product);
 
-      UpdateSUT.execute(code, price).then((response) => {
+      UpdateSUT.execute(code, undefined, price, undefined).then((response) => {
         expect(response).toEqual(expectedResponse);
       });
     });
@@ -58,9 +60,9 @@ describe('Update class', () => {
         error,
       };
 
-      ProductRepositoryMock.updatePrice.mockRejectedValueOnce(error);
+      ProductRepositoryMock.update.mockRejectedValueOnce(error);
 
-      UpdateSUT.execute(code, price).then((response) => {
+      UpdateSUT.execute(code, undefined, price, undefined).then((response) => {
         expect(response).toEqual(expectedResponse);
       });
     });

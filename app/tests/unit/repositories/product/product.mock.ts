@@ -5,5 +5,5 @@ export const ProductRepositoryMock = {
   createMany: jest.spyOn(ProductRepository.prototype, 'createMany'),
   readByCode: jest.spyOn(ProductRepository.prototype, 'readByCode'),
   readBySearch: jest.spyOn(ProductRepository.prototype, 'readBySearch'),
-  updatePrice: jest.spyOn(ProductRepository.prototype, 'updatePrice'),
+  update: jest.spyOn(ProductRepository.prototype, 'update'),
 };

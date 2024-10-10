@@ -1,27 +1,26 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { ProductRepository } from '@repositories/product';
-import { Update } from './update.business';
-import { UpdateHTTPResponse } from './update.d';
+import { Delete } from './delete.business';
+import { DeleteHTTPResponse } from './delete.d';
 
-const UpdateBusiness = new Update(
+const DeleteBusiness = new Delete(
   new ProductRepository(
     new PrismaClient(),
   ),
 );
 
-export class UpdateMiddleware {
+export class DeleteMiddleware {
   public async handle(request: Request, response: Response): Promise<Response> {
-    const responseContent: UpdateHTTPResponse = { success: false };
+    const responseContent: DeleteHTTPResponse = { success: false };
 
-    const { code } = request.params;
-    const { name, price, quantity } = request.body;
+    const { codes } = request.body;
 
-    const update = await UpdateBusiness.execute(code, name, price, quantity);
+    const deleteProducts = await DeleteBusiness.execute(codes);
 
-    if (update.success && update.data) {
+    if (deleteProducts.success && deleteProducts.data) {
       responseContent.success = true;
-      responseContent.data = update.data;
+      responseContent.data = deleteProducts.data;
       return response.status(200).json(responseContent);
     }
 

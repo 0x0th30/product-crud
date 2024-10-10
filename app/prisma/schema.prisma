@@ -12,8 +12,9 @@ datasource db {
 
 model Product {
   code       String   @id @unique
-  title      String
+  name       String
   price      Float
+  quantity   Int
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

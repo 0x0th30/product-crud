@@ -7,12 +7,17 @@ export class Update {
     private readonly productRepository: ProductRepository,
   ) { }
 
-  public async execute(code: string, price: number): Promise<UpdateDTO> {
+  public async execute(
+    code: string,
+    name?: string,
+    price?: number,
+    quantity?: number,
+  ): Promise<UpdateDTO> {
     logger.info('Initializing "update" service/use-case...');
     const response: UpdateDTO = { success: false };
 
     logger.info('Sending received product data to repository...');
-    await this.productRepository.updatePrice(code, price)
+    await this.productRepository.update(code, name, price, quantity)
       .then((product) => {
         logger.info('Received updated product from repository.');
         response.success = true;

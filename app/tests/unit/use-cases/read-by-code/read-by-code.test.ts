@@ -29,8 +29,9 @@ describe('ReadByCode class', () => {
 
       const product = {
         code: 'asdf',
-        title: 'foo',
+        name: 'foo',
         price: 10.45,
+        quantity: 10,
         created_at: new Date('2024-01-19T06:03:33.706Z'),
         updated_at: new Date('2024-01-19T06:03:33.706Z'),
       };

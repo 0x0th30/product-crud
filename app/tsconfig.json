@@ -49,5 +49,5 @@
     "src/**/*.ts",
     "src/types/global.d.ts",
     "tests/**/*.ts"
-, "src/use-cases/read-by-search/read-by-search.middleware.ts"  ]
+  ]
 }

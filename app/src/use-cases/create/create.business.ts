@@ -5,14 +5,19 @@ import { CreateDTO } from './create.d';
 export class Create {
   constructor(
     private readonly productRepository: ProductRepository,
-  ) {}
+  ) { }
 
-  public async execute(code: string, title: string, price: number): Promise<CreateDTO> {
+  public async execute(
+    code: string,
+    name: string,
+    price: number,
+    quantity: number,
+  ): Promise<CreateDTO> {
     logger.info('Initializing "create" service/use-case...');
     const response: CreateDTO = { success: false };
 
     logger.info('Sending received product data to repository...');
-    await this.productRepository.create(code, title, price)
+    await this.productRepository.create(code, name, price, quantity)
       .then((product) => {
         logger.info('Received created product from repository.');
         response.success = true;

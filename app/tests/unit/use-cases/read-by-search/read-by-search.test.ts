@@ -21,7 +21,7 @@ describe('ReadBySearch class', () => {
       expect(ProductRepositoryMock.readBySearch).toHaveBeenCalled();
     });
     it('should call "productRepository.readBySearch" method w/ provided'
-    + ' parameters', () => {
+      + ' parameters', () => {
       const search = {
         pagination: { page: 2, limit: 10 },
         keyword: '',
@@ -42,15 +42,17 @@ describe('ReadBySearch class', () => {
       const products = [
         {
           code: 'foo1',
-          title: 'bar',
+          name: 'bar',
           price: 0.99,
+          quantity: 10,
           created_at: new Date('2024-01-19T06:03:33.706Z'),
           updated_at: new Date('2024-01-19T06:03:33.706Z'),
         },
         {
           code: 'foo2',
-          title: 'bar',
+          name: 'bar',
           price: 0.99,
+          quantity: 10,
           created_at: new Date('2024-01-19T06:03:33.706Z'),
           updated_at: new Date('2024-01-19T06:03:33.706Z'),
         },

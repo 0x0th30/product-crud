@@ -15,9 +15,11 @@ export class CreateMiddleware {
   public async handle(request: Request, response: Response): Promise<Response> {
     const responseContent: CreateHTTPResponse = { success: false };
 
-    const { code, title, price } = request.body;
+    const {
+      code, name, price, quantity,
+    } = request.body;
 
-    const create = await CreateBusiness.execute(code, title, price);
+    const create = await CreateBusiness.execute(code, name, price, quantity);
 
     if (create.success && create.data) {
       responseContent.success = true;
