@@ -4,7 +4,7 @@ import { NotFoundItem, NotUniqueId } from '@errors/repository-error';
 export class TaskRepository {
   constructor(
     private readonly client: PrismaClient,
-  ) {}
+  ) { }
 
   public async create(id: string, status: TaskStatus, enqueued: number): Promise<Task> {
     const data = { id, status, enqueued };

@@ -39,7 +39,7 @@ export class ProcessProducts {
           };
           const { taskId } = task;
 
-          logger.info(`Handling received task "${task}"...`);
+          logger.info(`Handling received task "${taskId}"...`);
           this.handleNewTask(task);
 
           logger.info(`Check if all products from task "${taskId}" was received...`);
@@ -50,7 +50,10 @@ export class ProcessProducts {
             let status: TaskStatus = 'STARTED';
             await this.productRepository.createMany(this.tasks[taskId])
               .then(() => { status = 'FINISHED'; })
-              .catch(() => { status = 'FAILED'; });
+              .catch((error) => {
+                logger.error(`Failed by ${error}`);
+                status = 'FAILED';
+              });
 
             await this.taskRepository.updateStatus(taskId, status);
             logger.info(`New task "${taskId}" status is "${status}".`);
@@ -68,7 +71,11 @@ export class ProcessProducts {
     const productCounter = this.tasks[taskId].length;
     const totalProductsPerTask = await this.taskRepository.readById(taskId)
       .then((data) => data.enqueued)
-      .catch(() => this.receivedAllProductsFromTask(taskId));
+      .catch((error) => {
+        logger.error(`Failed by ${error}`);
+        return this.receivedAllProductsFromTask(taskId);
+      });
+    logger.info(`Inserted ${productCounter} from ${totalProductsPerTask}`);
 
     return productCounter >= totalProductsPerTask;
   }

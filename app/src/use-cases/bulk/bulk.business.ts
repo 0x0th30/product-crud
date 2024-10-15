@@ -38,12 +38,13 @@ export class Bulk {
       request.pipe(csvParser())
         .on('data', (row) => {
           const rowKeys = Object.keys(row);
-          if (rowKeys.length === 3) {
+          if (rowKeys.length === 4) {
             const handledRow = {
               taskId,
               code: row[rowKeys[0]],
-              title: row[rowKeys[1]],
+              name: row[rowKeys[1]],
               price: row[rowKeys[2]],
+              quantity: row[rowKeys[3]],
             };
 
             logger.info(`Pushing "${JSON.stringify(handledRow)}" to queue...`);
@@ -57,14 +58,14 @@ export class Bulk {
           transaction.exec()
             .then(() => {
               logger.info('The transaction was successfully commited under task id'
-              + `"${taskId}" w/ ${this.enqueuedProducts} enqueued products`);
+                + `"${taskId}" w/ ${this.enqueuedProducts} enqueued products`);
 
               const data = { taskId, enqueuedProducts: this.enqueuedProducts };
               resolve(data);
             })
             .catch((error) => {
               logger.error('Something went wrong during commiting transaction!'
-              + ` Details: ${error}`);
+                + ` Details: ${error}`);
 
               transaction.discard();
               reject(error);
